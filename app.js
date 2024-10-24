@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+//routes import
+import userRouter from "./routes/user.routes.js";
 
 const app = express();
 
@@ -13,9 +15,12 @@ app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 
-//routes import
-// import userRouter from "./routes/users/user.routes.js";
 //routes declaration
-// app.use("/api/v1/healthcheck", healthcheckRouter);
+
+app.use("/api/v1/auth", userRouter);
+
+app.get("/api/v1/healthcheck", (req, res) => {
+  res.status(200).json({ status: "UP", timestamp: new Date().toISOString() });
+});
 
 export { app };
